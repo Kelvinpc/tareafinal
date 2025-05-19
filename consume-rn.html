@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ml5@0.12.2/dist/ml5.min.js"></script>
+
+</head>
+<body>
+
+  <style>
+    body{background-color: antiquewhite;}
+  </style>
+  
+  <script>
+
+    //variables y objetos
+    let shapeClassifier //red reuronal
+    let canvas          //lienzo donde dibujamos 
+    let resultDiv       //capa (div) para mostrar resultados
+    let inputImage      //traslada imagen canvavs > red neuronal
+
+    let clearButton     //Botón reinicia el lienzo
+
+    function setup() {
+
+      //LIENZO
+      canvas = createCanvas(400,400)
+      background(255)
+
+      //red neuronal
+      let options ={
+        inputs: [64,64,4],
+        task  : 'imageClassification',
+      }
+
+
+            //inicializar
+      shapeClassifier = ml5.neuralNetwork(options)
+
+
+      //utilizar los archivos del modelo entrenado
+      const modelDetails = {
+        model:'model/model.json',
+        metadata: 'model/model_meta.json',
+        weights: 'model/model.weights.bin'
+      }
+
+      //boton para reiniciar el lienzo
+      clearButton = createButton('Limpiar')
+      clearButton.mousePressed(() =>{
+        background(255)
+      })
+
+      //texto con los resultados
+      resultDiv = createDiv('Cargando el modelo...')
+
+
+      //objeto almacena la imagen introducimos LIENZO
+      inputImage = createGraphics(64,64)
+
+      //carga la RN
+      shapeClassifier.load(modelDetails, modelLoaded)
+    }
+
+    function modelLoaded() {
+
+      console.log("Modelo cargado")
+      classifyImage()
+      
+    }
+
+    function classifyImage(){
+
+      //Reescalar la imagen 400x400 > 64x64
+      inputImage.copy(canvas,0,0,400,400,0,0,64,64)
+      shapeClassifier.classify({image: inputImage}, goResults)
+    }
+    
+    function goResults(err, results){
+
+      if(err){
+        console.err(err);
+        return;
+      }
+
+      //no hubo error - obtener resultados
+      let etiqueta = results[0].label
+      let confianza = results[0].confidence
+      resultDiv.html(etiqueta + " - " + confianza)
+      classifyImage()
+    }
+
+    function draw(){
+      //mousePressed = Boton primario del mouse
+      if (mouseIsPressed) {
+        strokeWeight(8)
+        line(mouseX, mouseY,pmouseX,pmouseY)
+      }
+    }
+
+  </script>
+  
+</body>
+</html>
