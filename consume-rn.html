@@ -70,11 +70,11 @@
       //utilizar los archivos del modelo entrenado
 
 
-const modelDetails = {
-  model: 'model/model.json',
-  metadata: 'model/model_meta.json',
-  weights: 'model/model.weights.bin'
-};
+      const modelDetails = {
+        model: 'model/model.json',
+        metadata: 'model/model_meta.json',
+        weights: 'model/model.weights.bin'
+      };
 
 
       //boton para reiniciar el lienzo
@@ -84,7 +84,7 @@ const modelDetails = {
       })
 
       //texto con los resultados
-      resultDiv = createDiv('Cargando el modelo...')
+      // resultDiv = createDiv('Cargando el modelo...')
       
 
 
@@ -142,7 +142,7 @@ const modelDetails = {
     function draw(){
       //mousePressed = Boton primario del mouse
       if (mouseIsPressed) {
-        strokeWeight(8)
+        strokeWeight(10)
         line(mouseX, mouseY,pmouseX,pmouseY)
       }
     }
