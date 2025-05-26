@@ -10,9 +10,18 @@
 </head>
 <body>
 <script>
+
   let circles = [];
   let squares = [];
-  let triangles = [];
+
+  let triangleA = [];
+  let triangleB = [];
+
+  let trianglesRectanguloA = [];
+  let trianglesRectanguloB = [];
+  let trianglesRectanguloC = [];
+  let trianglesRectanguloD = [];
+  
 
   // Objeto ml5
   let ShapeClassifier;
@@ -22,7 +31,15 @@
       let index = nf((i + 1), 3, 0); // 001, 002, ..., 100
       circles[i] = loadImage(`data/circle${index}.png`);
       squares[i] = loadImage(`data/square${index}.png`);
-      triangles[i] = loadImage(`data/triangle${index}.png`);
+      
+      triangleA[i] = loadImage(`data/triangleA${index}.png`);
+      triangleB[i] = loadImage(`data/triangleB${index}.png`);
+
+      trianglesRectanguloA[i] = loadImage(`data/triangleRectanguloA${index}.png`);
+      trianglesRectanguloB[i] = loadImage(`data/triangleRectanguloB${index}.png`);
+      trianglesRectanguloC[i] = loadImage(`data/triangleRectanguloC${index}.png`);
+      trianglesRectanguloD[i] = loadImage(`data/triangleRectanguloD${index}.png`);
+
     }
   }
 
@@ -41,21 +58,32 @@
 
     // Añadir datos
     for (let i = 0; i < 100; i++) {
-      ShapeClassifier.addData({ image: circles[i] }, { label: "circulo" });
-      ShapeClassifier.addData({ image: squares[i] }, { label: "cuadrado" });
-      ShapeClassifier.addData({ image: triangles[i] }, { label: "triangulo" });
+      ShapeClassifier.addData({ image: circles[i] }, { label: 'circulo'});
+      ShapeClassifier.addData({ image: squares[i] }, { label: 'cuadrado'});
+
+
+      ShapeClassifier.addData({ image: triangleA[i] }, { label: 'triangleA'});
+      ShapeClassifier.addData({ image: triangleB[i] }, { label: 'triangleB'});
+
+
+      ShapeClassifier.addData({image: trianglesRectanguloA[i] }, {label: 'trianglesRectanguloA'});
+      ShapeClassifier.addData({image: trianglesRectanguloB[i] }, {label: 'trianglesRectanguloB'});
+      ShapeClassifier.addData({image: trianglesRectanguloC[i] }, {label: 'trianglesRectanguloC'});
+      ShapeClassifier.addData({image: trianglesRectanguloD[i] }, {label: 'trianglesRectanguloD'});
     }
 
     // Normalización y entrenamiento
     ShapeClassifier.normalizeData();
     ShapeClassifier.train({ epochs: 50 }, finishedTraining);
+
   }
+
 
   function finishedTraining() {
     console.log("Entrenamiento finalizado.");
     // Aquí podrías guardar el modelo o probar una predicción
     ShapeClassifier.save();
   }
-</script>
+  </script>
 </body>
 </html>
