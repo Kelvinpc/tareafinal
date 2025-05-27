@@ -1,0 +1,61 @@
+void setup(){
+  
+  //reducimos el tamaño para ahorrar recursos de hardware
+  
+  size(64,64);
+  
+}
+
+
+// para generar triangulos
+
+void draw(){
+
+  for(int i = 0; i <3; i++){
+    
+    background(255);
+    strokeWeight(4);
+    
+    pushMatrix(); //TRANSLACION DE OBJETOS
+  
+  
+    //ALGORITMO PARA COORDENADAS
+    
+    float r=random(8,24);
+    float x=random(r,width-r);
+    float y=random(r,height-r);
+    
+    stroke(100,100,100);
+    
+    translate(x,y);
+    
+    //circulo
+    
+    if(i == 0){
+      
+      rotate(random(-0.1,0.1));
+      triangle(0,r,-r,-r,r,-r);
+      saveFrame("data/triangle###.png");
+      
+
+      
+    }
+    //else if(i==1){
+
+    //}else if(i ==2){
+
+    //}
+    
+      popMatrix();
+
+    
+    if(frameCount ==100){
+      exit();
+    }
+    
+  }
+  
+
+  
+
+}
